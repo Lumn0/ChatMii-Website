@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Discord</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="login-page">
+  <div class="page-shell">
+    <header class="site-header">
+      <nav class="header-nav">
+        <a class="nav-link" href="../">Home</a>
+        <a class="nav-link nav-link-accent active" href="./">Login</a>
+      </nav>
+    </header>
+
+    <main class="login-box-wrap">
+      <section class="login-box">
+        <div class="login-box-content">
+          <a class="discord-auth-btn" href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback&scope=identify%20email" target="_blank" rel="noopener noreferrer">
+            Discord login
+          </a>
+        </div>
+
+        <div class="login-box-image">
+          <img src="discord.png" alt="Logo Discord" />
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

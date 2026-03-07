@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="home-page">
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./">CSP</a>
+      <nav class="header-nav">
+        <a class="nav-link active" href="./">Accueil</a>
+        <a class="nav-link nav-link-accent" href="login/">Login</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-slider">
+        <div class="slider-track" id="sliderTrack">
+          <article class="slide is-active">
+            <div class="slide-copy">
+              <span class="eyebrow">Nouveau design</span>
+              <h1>Une home blanche, propre et animée pour CSP.</h1>
+              <p>Une interface moderne avec mouvement doux, couleurs retravaillées et navigation plus premium.</p>
+              <div class="hero-actions">
+                <a class="primary-btn" href="login/">Connexion Discord</a>
+                <a class="ghost-btn" href="#features">Découvrir</a>
+              </div>
+            </div>
+            <div class="slide-visual visual-one">
+              <div class="glass-orb orb-a"></div>
+              <div class="glass-orb orb-b"></div>
+              <div class="glass-card">
+                <span>Animation UI</span>
+                <strong>Fluidité</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide">
+            <div class="slide-copy">
+              <span class="eyebrow">Expérience</span>
+              <h1>Des animations élégantes sans alourdir la page.</h1>
+              <p>Transitions, survols lumineux et slider automatique pour donner une vraie identité visuelle au site.</p>
+              <div class="hero-actions">
+                <a class="primary-btn" href="login/">Se connecter</a>
+              </div>
+            </div>
+            <div class="slide-visual visual-two">
+              <div class="stats-card card-top">
+                <span>UI</span>
+                <strong>Clean</strong>
+              </div>
+              <div class="stats-card card-bottom">
+                <span>Style</span>
+                <strong>Premium</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide">
+            <div class="slide-copy">
+              <span class="eyebrow">Connexion</span>
+              <h1>Une page login simple : uniquement avec Discord.</h1>
+              <p>Un parcours clair : accueil élégant, puis redirection vers la connexion Discord sans distraction.</p>
+              <div class="hero-actions">
+                <a class="primary-btn" href="login/">Ouvrir le login</a>
+              </div>
+            </div>
+            <div class="slide-visual visual-three">
+              <div class="ring ring-one"></div>
+              <div class="ring ring-two"></div>
+              <div class="center-chip">Discord Only</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="slider-dots" aria-label="Navigation du slider">
+          <button class="slider-dot is-active" type="button" data-slide="0" aria-label="Slide 1"></button>
+          <button class="slider-dot" type="button" data-slide="1" aria-label="Slide 2"></button>
+          <button class="slider-dot" type="button" data-slide="2" aria-label="Slide 3"></button>
+        </div>
+      </section>
+
+      <section class="feature-grid" id="features">
+        <article class="feature-card reveal-card">
+          <span class="feature-badge">01</span>
+          <h2>Accueil lumineux</h2>
+          <p>Fond blanc, blocs aérés et couleurs plus fraîches pour une présence plus moderne.</p>
+        </article>
+
+        <article class="feature-card reveal-card delay-1">
+          <span class="feature-badge">02</span>
+          <h2>Animations fines</h2>
+          <p>Orbes flottantes, reflets, transitions et mouvement automatique sur le slider du haut.</p>
+        </article>
+
+        <article class="feature-card reveal-card delay-2">
+          <span class="feature-badge">03</span>
+          <h2>Login simplifié</h2>
+          <p>La page de connexion est recentrée sur l’essentiel : entrer via Discord uniquement.</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === index);
+      });
+
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === index);
+      });
+
+      currentSlide = index;
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        showSlide(Number(dot.dataset.slide));
+      });
+    });
+
+    setInterval(() => {
+      const nextSlide = (currentSlide + 1) % slides.length;
+      showSlide(nextSlide);
+    }, 4200);
+  </script>
+</body>
+</html>
