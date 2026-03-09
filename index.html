@@ -9,60 +9,64 @@
 <body class="home-page">
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand-mark" href="./" aria-label="ChatMii home">
+      <a class="brand-mark" href="#home" aria-label="ChatMii home">
         <img src="ChatMii.png" alt="ChatMii logo" />
       </a>
 
-      <div id="auth-widget" class="auth-widget" hidden>
-        <button id="auth-trigger" class="auth-trigger" type="button" aria-expanded="false" aria-controls="auth-menu">
-          <img id="auth-avatar" class="auth-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Profile picture" />
-          <span class="auth-name">Connected User</span>
-        </button>
-        <div id="auth-menu" class="auth-menu">
-          <a class="auth-item" href="#">Settings</a>
-          <a class="auth-item" href="#">Profile</a>
-          <a class="auth-item auth-logout" href="#">Log Out</a>
-        </div>
-      </div>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#home">Accueil</a>
+        <a href="#signup">Inscription</a>
+        <a href="#login">Connexion</a>
+      </nav>
     </header>
 
     <main class="home-main">
-      <section class="home-hero">
-        <div class="hero-actions">
-          <a class="primary-btn" href="https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FdiscordCallBack.html&scope=email+identify+rpc">Log with Discord</a>
+      <section class="home-hero" id="home">
+        <div class="hero-copy">
+          <h1>ChatMii</h1>
+          <p class="hero-text">
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#signup">Aller à l'inscription</a>
+            <a class="secondary-btn" href="#login">Aller à la connexion</a>
+          </div>
         </div>
+        <div class="hero-panel">
+          <p>Accès rapide</p>
+          <strong></strong>
+        </div>
+      </section>
+
+      <section class="card-section" id="signup">
+        <div class="section-heading">
+          <p class="eyebrow">Nouvel utilisateur</p>
+          <h2>Inscription</h2>
+        </div>
+
+        <p class="section-text">
+        </p>
+
+        <a class="discord-btn" href="https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FdiscordCallBack.html&scope=activities.write+guilds.join+identify+rpc.activities.write+activities.read+presences.read">
+          Sign up with Discord
+        </a>
+      </section>
+
+      <section class="card-section" id="login">
+        <div class="section-heading">
+          <p class="eyebrow">Déjà membre</p>
+          <h2>Connexion</h2>
+        </div>
+
+        <p class="section-text">
+          Reviens sur ChatMii avec la même méthode: une seule connexion,
+          directement avec Discord.
+        </p>
+
+        <a class="discord-btn discord-btn-alt" href="https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FdiscordCallBack.html&scope=activities.write+guilds.join+identify+rpc.activities.write+activities.read+presences.read">
+          Se connecter avec Discord
+        </a>
       </section>
     </main>
   </div>
-
-  <script>
-    const authWidget = document.getElementById("auth-widget");
-    const authTrigger = document.getElementById("auth-trigger");
-    const authMenu = document.getElementById("auth-menu");
-    const logoutLink = document.querySelector(".auth-logout");
-    const isConnected = localStorage.getItem("chatmii_connected") === "true";
-
-    if (isConnected) {
-      authWidget.hidden = false;
-    }
-
-    authTrigger.addEventListener("click", () => {
-      const opened = authMenu.classList.toggle("open");
-      authTrigger.setAttribute("aria-expanded", opened ? "true" : "false");
-    });
-
-    document.addEventListener("click", (event) => {
-      if (!authWidget.contains(event.target)) {
-        authMenu.classList.remove("open");
-        authTrigger.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    logoutLink.addEventListener("click", (event) => {
-      event.preventDefault();
-      localStorage.removeItem("chatmii_connected");
-      window.location.reload();
-    });
-  </script>
 </body>
 </html>

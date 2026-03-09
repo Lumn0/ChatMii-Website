@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord Callback</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body class="callback-page">
+  <div class="page-shell">
+    <main class="callback-shell">
+      <header class="account-bar">
+        <div class="account-menu-wrap">
+          <button id="account-trigger" class="account-trigger" type="button" aria-expanded="false" aria-controls="account-menu">
+            <img
+              id="account-avatar"
+              class="account-avatar"
+              src="https://cdn.discordapp.com/embed/avatars/0.png"
+              alt="User avatar"
+            />
+            <span class="account-meta">
+              <span id="account-name" class="account-name">Connected User</span>
+              <span class="account-role">Account</span>
+            </span>
+            <span class="account-caret">▾</span>
+          </button>
+
+          <div id="account-menu" class="account-menu" role="menu">
+            <div class="menu-section">
+              <a class="menu-item" href="#" role="menuitem">Settings</a>
+              <a class="menu-item" href="#" role="menuitem">Profile</a>
+              <a class="menu-item" href="#" role="menuitem">Notifications</a>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-section">
+              <a class="menu-item logout" href="../index.html" role="menuitem">Log Out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="callback-content">
+        <div class="callback-status-panel">
+          <p id="status-text" class="status-message"></p>
+          <p class="status-subtitle">Your account status appears here.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    
+    const API_BASE = "http://54.37.226.149:8080";
+
+    const params = new URLSearchParams(window.location.search);
+    const code  = params.get("code");
+    const state = params.get("state");
+    const homeUrl = new URL("../index.html", window.location.href).href;
+
+    const statusText = document.getElementById("status-text");
+    const accountTrigger = document.getElementById("account-trigger");
+    const accountMenu = document.getElementById("account-menu");
+    const accountName = document.getElementById("account-name");
+    const accountAvatar = document.getElementById("account-avatar");
+
+    const setStatus = (text, kind) => {
+      statusText.textContent = text;
+      statusText.classList.remove("success", "error");
+      if (kind) statusText.classList.add(kind);
+    };
+
+    const openMenu = () => {
+      accountMenu.classList.add("open");
+      accountTrigger.setAttribute("aria-expanded", "true");
+    };
+
+    const closeMenu = () => {
+      accountMenu.classList.remove("open");
+      accountTrigger.setAttribute("aria-expanded", "false");
+    };
+
+    accountTrigger.addEventListener("click", () => {
+      if (accountMenu.classList.contains("open")) closeMenu();
+      else openMenu();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!accountTrigger.contains(event.target) && !accountMenu.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    const expectedState = localStorage.getItem("discord_oauth_state");
+    const stateLooksValid = (!expectedState) || (state && state === expectedState);
+
+    async function exchangeCodeWithBackend(authCode) {
+      const res = await fetch(`${API_BASE}/auth/discord/exchange`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: authCode,
+          redirect_uri: "https://lumn0.github.io/ChatMii-Website/login/Callback.html"
+        })
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error(`Backend error ${res.status}: ${txt}`);
+      }
+      return res.json();
+    }
+
+    (async () => {
+      if (!code) {
+        setStatus("Connection Error", "error");
+        accountName.textContent = "Guest";
+        return;
+      }
+
+      if (!stateLooksValid) {
+        setStatus("Connection Error (state mismatch)", "error");
+        accountName.textContent = "Guest";
+        return;
+      }
+
+      setStatus("Linking Discord...", null);
+      accountName.textContent = "Connecting...";
+      accountAvatar.src = "https://cdn.discordapp.com/embed/avatars/0.png";
+
+      try {
+        const data = await exchangeCodeWithBackend(code);
+
+        setStatus("Connected", "success");
+        accountName.textContent = data.username || "Connected User";
+        if (data.avatar_url) accountAvatar.src = data.avatar_url;
+
+        if (data.chatmii_token) {
+          localStorage.setItem("chatmii_token", data.chatmii_token);
+          localStorage.setItem("chatmii_connected", "true");
+        }
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        if (expectedState) localStorage.removeItem("discord_oauth_state");
+
+        setTimeout(() => {
+
+          if (window.opener && !window.opener.closed) {
+            try {
+              window.opener.location.href = homeUrl;
+              window.close();
+              return;
+            } catch (e) {}
+          }
+          window.location.replace(homeUrl);
+        }, 700);
+
+      } catch (err) {
+        console.error(err);
+        setStatus("Connection Error", "error");
+        accountName.textContent = "Guest";
+      }
+    })();
+  </script>
+</body>
+</html>
