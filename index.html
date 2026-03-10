@@ -38,7 +38,7 @@
     </header>
     <script>
   const CLIENT_ID = "1479783523651944580";
-  const REDIRECT_URI = "https://lumn0.github.io/ChatMii-Website/login/CallBack.html"; // EXACTEMENT ce fichier
+  const REDIRECT_URI = "https://lumn0.github.io/ChatMii-Website/login/CallBack.html";
   const SCOPE = "identify";
 
   function makeState() {
@@ -52,13 +52,7 @@
   localStorage.setItem("discord_oauth_state", state);
 
   const oauthUrl =
-    "https://discord.com/oauth2/authorize"
-    + "?client_id=" + encodeURIComponent(CLIENT_ID)
-    + "&response_type=code"
-    + "&redirect_uri=" + encodeURIComponent(REDIRECT_URI)
-    + "&scope=" + encodeURIComponent(SCOPE)
-    + "&state=" + encodeURIComponent(state)
-    + "&prompt=consent";
+    'https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FCallback.html&scope=identify'
 
   const loginBtn = document.getElementById("discord-login");
   const signupBtn = document.getElementById("discord-signup");
