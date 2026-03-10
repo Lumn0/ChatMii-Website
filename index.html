@@ -1,72 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChatMii</title>
-  <link rel="stylesheet" href="style.css" />
- </head>
-<body class="home-page">
-  <div class="page-shell">
-    <header class="site-header">
-      <a class="brand-mark" href="#home" aria-label="ChatMii home">
-        <img src="ChatMii.png" alt="ChatMii logo" />
-      </a>
-
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="#home">Accueil</a>
-        <a href="#signup">Inscription</a>
-        <a href="#login">Connexion</a>
-      </nav>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatMii</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .header { position: fixed; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; padding: 0 16px; box-sizing: border-box; background: #ffffff; z-index: 1000; }
+        .logo { height: 150px; }
+        .nav { margin-left: auto; display: flex; gap: 8px; }
+        main { padding: 90px 16px 16px 16px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="ChatMii.png" alt="ChatMii" class="logo">
+        <nav class="nav">
+            <a class="Log In" id="discord-login" href="#">Log In</a>
+            <a class="Sign Up" id="discord-signup" href="#">Sign Up</a>
+            <a class="GitHub" href="https://github.com/Lumn0/ChatMii">GitHub</a>
+        </nav>
     </header>
 
-    <main class="home-main">
-      <section class="home-hero" id="home">
-        <div class="hero-copy">
-          <h1>ChatMii</h1>
-          <p class="hero-text">
-          </p>
-          <div class="hero-actions">
-            <a class="primary-btn" href="#signup">Aller à l'inscription</a>
-            <a class="secondary-btn" href="#login">Aller à la connexion</a>
-          </div>
-        </div>
-        <div class="hero-panel">
-          <p>Accès rapide</p>
-          <strong></strong>
-        </div>
-      </section>
+    <header>
+        <main>
+            <title>ChatMii</title>
+             <h1>Version 0.0.1</h1>
+             <h3>Change Log :</h3>
+                <ul>
+                    <li>First release OMMGG</li>
+                    <li>Idk</li>
+                    <li>Idk</li>
+                    <li>Idk</li>
+                </ul>
+             <a class="0.0.1" href="">Download</a>
+        </main>
+    </header>
+    <script>
+  const CLIENT_ID = "1479783523651944580";
+  const REDIRECT_URI = "https://lumn0.github.io/ChatMii-Website/login/CallBack.html"; // EXACTEMENT ce fichier
+  const SCOPE = "identify";
 
-      <section class="card-section" id="signup">
-        <div class="section-heading">
-          <p class="eyebrow">Nouvel utilisateur</p>
-          <h2>Inscription</h2>
-        </div>
+  function makeState() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    const arr = new Uint8Array(16);
+    crypto.getRandomValues(arr);
+    return Array.from(arr).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
 
-        <p class="section-text">
-        </p>
+  const state = makeState();
+  localStorage.setItem("discord_oauth_state", state);
 
-        <a class="discord-btn" href="https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FdiscordCallBack.html&scope=activities.write+guilds.join+identify+rpc.activities.write+activities.read+presences.read">
-          Sign up with Discord
-        </a>
-      </section>
+  const oauthUrl =
+    "https://discord.com/oauth2/authorize"
+    + "?client_id=" + encodeURIComponent(CLIENT_ID)
+    + "&response_type=code"
+    + "&redirect_uri=" + encodeURIComponent(REDIRECT_URI)
+    + "&scope=" + encodeURIComponent(SCOPE)
+    + "&state=" + encodeURIComponent(state)
+    + "&prompt=consent";
 
-      <section class="card-section" id="login">
-        <div class="section-heading">
-          <p class="eyebrow">Déjà membre</p>
-          <h2>Connexion</h2>
-        </div>
-
-        <p class="section-text">
-          Reviens sur ChatMii avec la même méthode: une seule connexion,
-          directement avec Discord.
-        </p>
-
-        <a class="discord-btn discord-btn-alt" href="https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FdiscordCallBack.html&scope=activities.write+guilds.join+identify+rpc.activities.write+activities.read+presences.read">
-          Se connecter avec Discord
-        </a>
-      </section>
-    </main>
-  </div>
+  const loginBtn = document.getElementById("discord-login");
+  const signupBtn = document.getElementById("discord-signup");
+  if (loginBtn) loginBtn.href = oauthUrl;
+  if (signupBtn) signupBtn.href = oauthUrl;
+</script>
 </body>
 </html>
