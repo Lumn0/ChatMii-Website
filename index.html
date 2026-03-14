@@ -16,8 +16,7 @@
     <header class="header">
         <img src="ChatMii.png" alt="ChatMii" class="logo">
         <nav class="nav">
-            <a class="Log In" id="discord-login" href="#">Log In</a>
-            <a class="Sign Up" id="discord-signup" href="#">Sign Up</a>
+            <a class="discord-login" id="discord-login" href="#">Log In with Discord</a>
             <a class="GitHub" href="https://github.com/Lumn0/ChatMii">GitHub</a>
         </nav>
     </header>
@@ -51,8 +50,8 @@
   const state = makeState();
   localStorage.setItem("discord_oauth_state", state);
 
-  const oauthUrl =
-    'https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FCallback.html&scope=identify'
+    const oauthUrl =
+        'https://discord.com/oauth2/authorize?client_id=1479783523651944580&response_type=code&redirect_uri=https%3A%2F%2Flumn0.github.io%2FChatMii-Website%2Flogin%2FCallback.html&scope=identify'
 
   const loginBtn = document.getElementById("discord-login");
   const signupBtn = document.getElementById("discord-signup");
